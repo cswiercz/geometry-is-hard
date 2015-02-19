@@ -2,6 +2,8 @@
 #ifndef PRIMITIVES_HPP
 #define PRIMITIVES_HPP
 
+#include <memory>
+
 template <size_t dim,
           class T,
           class Real = double>
@@ -23,6 +25,11 @@ protected:
 
 public:
   Point() : coords() { }
+
+  Point(const std::initializer_list<Real> v)
+  {
+    std::uninitialized_copy(v.begin(), v.end(), coords);
+  }
 
   Real operator[](const size_t& i) const
   {
