@@ -9,7 +9,7 @@ template <size_t dim,
           class Real = double>
 class PointBase
 {
-  Real operator[](const size_t& i) const
+  inline Real operator[](const size_t& i) const
   {
     return static_cast<T*>(this)[i];
   }
@@ -31,7 +31,7 @@ public:
     std::uninitialized_copy(v.begin(), v.end(), coords);
   }
 
-  Real operator[](const size_t& i) const
+  inline Real operator[](const size_t& i) const
   {
     return coords[i];
   }
