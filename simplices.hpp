@@ -22,9 +22,12 @@ class Simplices
 {
 public:
   Simplices() {};
+  Simplices(Simplices<d, k-1, Real> _sub_simplices)
+    : sub_simplices(_sub_simplices) {}
 
   size_t size() const { return simplices.size(); }
 
+  /* Adding simplices */
   void add(const std::array<size_t, k+1>& simplex) {
     simplices.push_back(simplex);
   }
@@ -33,6 +36,7 @@ public:
     sub_simplices.add(x);
   }
 
+  /* Returning cells or faces */
   Simplices<d, k-1, Real>& sub() {
     return sub_simplices;
   }
@@ -40,6 +44,11 @@ public:
   Simplex<d, k, Real> operator[](const size_t index) {
     return Simplex<d, k, Real>(*this, index);
   }
+
+  typedef typename std::vector<std::array<size_t, k+1> >::const_iterator
+    const_iterator;
+  const_iterator begin() const { return simplices.begin(); }
+  const_iterator end() const { return simplices.end(); }
 
 private:
   std::vector<std::array<size_t, k+1> > simplices;
@@ -90,6 +99,11 @@ public:
   Simplex<d, 0, Real> operator[](const size_t index) const {
     return Simplex<d, 0, Real>(*this, index);
   }
+
+  typedef typename std::vector<std::array<Real, d> >::const_iterator
+    const_iterator;
+  const_iterator begin() const { return X.begin(); }
+  const_iterator end() const { return X.end(); }
 
 private:
   std::vector<std::array<Real, d> > X;
