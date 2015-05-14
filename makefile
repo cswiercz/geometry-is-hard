@@ -1,14 +1,16 @@
 
+OBJECTS = mesh.o fem.o
+
+include $(SLEPC_DIR)/conf/slepc_common
+
 .SECONDARY:
-.PHONY: clean
+.PHONY: clobber
 
-CXXFLAGS = -std=c++11
+CXXFLAGS += -std=c++11
+CFLAGS += -std=c99
 
-%.o: %.cpp
-	$(CXX) -c $< $(CXXFLAGS)
+%.exe: $(OBJECTS) %.o
+	$(CLINKER) $*.o -o $@ $(OBJECTS) $(SLEPC_EPS_LIB)
 
-%: %.o
-	$(CXX) -o $@ $^ $(CXXFLAGS)
-
-clean:
+clobber:
 	rm -rf *.o
