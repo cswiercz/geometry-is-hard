@@ -29,6 +29,9 @@ int main(int argc, char **argv)
   VecAssemblyBegin(u);
   VecAssemblyEnd(u);
 
+  Vec v;
+  VecDuplicate(u, &v);
+
   MPI_Comm_size(PETSC_COMM_WORLD, &size);
   MPI_Comm_rank(PETSC_COMM_WORLD, &me);
 
@@ -47,6 +50,12 @@ int main(int argc, char **argv)
   EPSSolve(eps);
 
   EPSPrintSolution(eps, NULL);
+
+  EPSGetEigenvector(eps, 1, u, v);
+
+  PetscViewer viewer;
+  PetscViewerASCIIOpen(PETSC_COMM_WORLD, "eigenvector.txt", &viewer);
+  VecView(u, viewer);
 
   int its;
   EPSGetIterationNumber(eps, &its);
