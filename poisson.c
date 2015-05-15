@@ -36,12 +36,17 @@ int main(int argc, char **argv)
   Mat B = MassMatrix      (&m, istart, iend);
   Mat R = NeumannMatrix   (&m, istart, iend);
 
-  int ierr;
+  MatAXPY(A, 1.0, R, SUBSET_NONZERO_PATTERN);
+
   EPS eps; // Eigenvalue problem solver
-  ierr = EPSCreate(PETSC_COMM_WORLD, &eps); CHKERRQ(ierr);
-  ierr = EPSSetOperators(eps, A, NULL); CHKERRQ(ierr);
-  ierr = EPSSetProblemType(eps, EPS_HEP); CHKERRQ(ierr);
-  ierr = EPSSolve(eps); CHKERRQ(ierr);
+  EPSCreate(PETSC_COMM_WORLD, &eps);
+  EPSSetOperators(eps, A, B);
+  EPSSetProblemType(eps, EPS_GHEP);
+  EPSSetDimensions(eps, 6, 50, 50);
+  EPSSetWhichEigenpairs(eps, EPS_SMALLEST_MAGNITUDE);
+  EPSSolve(eps);
+
+  EPSPrintSolution(eps, NULL);
 
   int its;
   EPSGetIterationNumber(eps, &its);
@@ -51,6 +56,7 @@ int main(int argc, char **argv)
   MatDestroy(&A);
   MatDestroy(&B);
   MatDestroy(&R);
+  EPSDestroy(&eps);
 
   SlepcFinalize();
 
