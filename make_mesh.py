@@ -13,7 +13,10 @@ for k in range(nn):
     x[k] = cos(2*pi*k/nn)
     y[k] = sin(2*pi*k/nn)
 
-fid = open("example.poly", "w")
+if not os.path.exists("meshes"):
+    os.makedirs("meshes")
+
+fid = open("meshes/example.poly", "w")
 
 fid.write("{0} {1} {2} {3}\n".format(nn, 2, 0, 1))
 for k in range(nn):
@@ -27,4 +30,4 @@ fid.write("0\n")
 fid.close()
 
 area = 0.0005
-os.system("triangle -pqnea" + str(area) + " example.poly")
+os.system("triangle -pqnea" + str(area) + " meshes/example.poly")
