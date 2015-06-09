@@ -16,7 +16,7 @@ int point_in_triangle( Mesh *m, int n, double *w );
 
 int find_point_in_triangle( Mesh *m, double *w );
 
-int find_edge_crossed( Mesh *m, int n, double *W, double *dw, \
+int find_edge_crossed( Mesh *m, int n, double *W, double *dw,
     double *r );
 
 #endif

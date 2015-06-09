@@ -13,4 +13,4 @@ CFLAGS += -std=c99
 	$(CLINKER) $*.o -o $@ $(OBJECTS) $(SLEPC_EPS_LIB)
 
 clobber:
-	rm -rf *.o
+	rm -rf *.o *.so *.exe
