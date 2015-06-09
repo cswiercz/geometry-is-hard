@@ -1,5 +1,7 @@
 
 cimport cython
+cimport numpy as np
+import numpy as np
 
 cdef extern from "mesh.h":
     ctypedef struct Mesh:
@@ -16,9 +18,13 @@ cdef extern from "mesh.h":
     void FreeMesh(Mesh *m)
 
 cdef class CMesh:
-    cdef Mesh m
+    cdef Mesh *m
 
     def __init__(self, filename):
         cdef bytes py_bytes = filename.encode()
         cdef char *c_filename = py_bytes
-        m = ReadMesh(c_filename)
+        cdef Mesh m = ReadMesh(c_filename)
+        self.m = &m
+
+    def __dealloc__(self):
+        FreeMesh(self.m)
