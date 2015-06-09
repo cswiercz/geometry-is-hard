@@ -1,3 +1,7 @@
+
+#ifndef MESH_H
+#define MESH_H
+
 typedef struct {
     int nn, ne, nl;
     double *x, *y;
@@ -14,3 +18,5 @@ int find_point_in_triangle( Mesh *m, double *w );
 
 int find_edge_crossed( Mesh *m, int n, double *W, double *dw, \
     double *r );
+
+#endif
