@@ -1,3 +1,6 @@
+# specific temporary Cython files
+cmesh.c
+
 # Compiled Object files
 *.slo
 *.lo
