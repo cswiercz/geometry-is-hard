@@ -18,6 +18,7 @@ cdef extern from "mesh.h":
     Mesh ReadMesh(char *filename)
     void FreeMesh(Mesh *m)
 
+
 cdef class CMesh:
     cdef Mesh* m
 
@@ -32,6 +33,30 @@ cdef class CMesh:
 
     @property
     def x(self):
-        cdef int n = self.m.nn
-        cdef double[:] x = <double[:n]>self.m.x
+        cdef int nn = self.m.nn
+        cdef double[:] x = <double[:nn]>self.m.x
         return numpy.array(x, dtype=numpy.double)
+
+    @property
+    def y(self):
+        cdef int nn = self.m.nn
+        cdef double[:] y = <double[:nn]>self.m.y
+        return numpy.array(y, dtype=numpy.double)
+
+    @property
+    def triangles(self):
+        cdef int ne = self.m.ne
+        cdef int[:,:] ele = <int[:ne,:3]>self.m.ele
+        return numpy.array(ele, dtype=numpy.int)
+
+    @property
+    def edges(self):
+        cdef int nl = self.m.nl
+        cdef int[:,:] edge = <int[:nl,:2]>self.m.edge
+        return numpy.array(edge, dtype=numpy.int)
+
+    @property
+    def neighbors(self):
+        cdef int ne = self.m.ne
+        cdef int[:,:] neigh = <int[:ne,:3]>self.m.neigh
+        return numpy.array(neigh, dtype=numpy.int)
